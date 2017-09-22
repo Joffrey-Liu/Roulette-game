@@ -1,0 +1,189 @@
+<html>
+<head>
+<title></title>
+</head>
+ 
+</head>
+ <body bgcolor="black">
+<script language="JavaScript"> 
+ 
+var i1=1;
+var thing=0; 
+var money=3000;
+var ans=1;
+var size =5;
+ 
+var a = new Array(size);
+for(var i = 0; i < size; i++)
+a[i] = new Array(size);
+
+var b = new Array(size);
+for(var i = 0; i < size; i++)
+b[i] = new Array(size);
+
+for(var i=0;i<5;i++)
+	for(var j=0;j<5;j++)
+	    a[i][j]=0;
+
+
+
+
+   var table = document.createElement("TABLE");
+   document.body.appendChild(table);
+   table.border = "2";
+   table.cellSpacing = "2";
+   table.bgColor = "#eeeeee";
+   table.align="center";
+   table.top = "10px";
+  
+   var x3, y3,num=1;
+   
+   for(x3=0;x3<size;x3++){
+	r = table.insertRow(x3);
+	for(y3=0;y3<size;y3++){
+		c = r.insertCell(y3);
+		c.width="50";
+		c.height="50";
+		c.name='c'+x3+y3;
+		c.id = num;
+		c.vAlign="center";
+		c.align="center";
+		c.onclick = put;
+		//c.innerHTML="aaa";
+		b[x3][y3]=num;
+		c.appendChild(document.createTextNode(c.id));
+		num++;
+	}
+   }
+   
+function put(event){
+
+	if ((typeof event == "undefined")||(!event))
+		event = window.event;
+	var e1 = event.target || event.srcElement;
+	var x3 = e1.name.substring(1, 2);
+	var y3 = e1.name.substring(2, 3);
+
+	 if(a[x3][y3]%2==0)
+		{
+			e1.bgColor = "red";
+			thing++;
+			a[x3][y3]++;
+			money=money-100;		
+		}		
+	else
+		{
+			e1.bgColor = "#eeeeee";
+			thing--;
+			a[x3][y3]--;
+			money=money+100;
+		}	
+ 
+	//alert('now pos, (' + x + ' ,' + y + ')');
+
+	document.getElementById('t2').innerHTML=money; 
+	
+}
+   
+   
+function getdiv(id1,x2,y2,w2,h2,color2,text2){
+document.writeln("<div id='"+id1+"' style='position:absolute;top:"+y2+";left:"+x2+";width:"+w2+";height:"+h2+";background-color:"+color2+";font-size:15px; border: 2px solid #a1a1a1;border-radius: 25px;'>"+text2+"</div>");
+}
+ 
+ 
+ 
+/*
+圓形
+r：半徑
+radian = 角度*(Math.PI/180);
+x = r*Math.cos(radian);
+y = r*Math.sin(radian);
+*/
+ 
+var r = 200;
+var x=250,y=250;
+var Colors=new Array("red","blue","yellow","white","cyan","gray");
+ 
+ 
+ 
+for(i=15;i<=360;i+=15){
+	getdiv("c"+i,x+r*Math.cos((i+270)*(Math.PI/180))-6,y+r*Math.sin((i+270)*(Math.PI/180))-6,15,15,Colors[3],i/15);
+}
+ 
+ 
+for(i=0;i<(r-20);i+=5){
+	getdiv("p"+i,x+i*Math.cos(270*(Math.PI/180)),y+i*Math.sin(270*(Math.PI/180)),1,1,Colors[2],"");
+}
+ 
+function move(){
+ 
+i1++;
+if(i1>24) i1=1;
+ 
+//document.getElementById('t1').style.left=i1;
+document.getElementById('t1').innerHTML=i1;
+
+ 
+var i2=i1*15;
+var id1="c"+i2;
+var id2;
+ 
+if (i1==1) {
+	id2="c"+(24*15);
+} 
+else {
+	id2="c"+((i1-1)*15);
+}
+ 
+document.getElementById(id2).style.backgroundColor= "#ffffff";
+document.getElementById(id1).style.backgroundColor= "red";
+ 
+for(i=0;i<(r-20);i+=5){
+    x1=x+i*Math.cos((i1*15-90)*(Math.PI/180));
+	y1=y+i*Math.sin((i1*15-90)*(Math.PI/180));
+	document.getElementById('p'+i).style.top=y1;
+	document.getElementById('p'+i).style.left=x1;
+    
+}
+ 
+ 
+}
+  
+run1 = window.setInterval("move()" , 100);
+ 
+
+ 
+function checkwin()
+{	
+	ans=i1;
+	clearInterval(run1);	
+	//document.write(ans);
+	var x100=Math.floor((ans)/5); 
+	var y100=((ans-1)%5);
+	if(a[x100][y100]==1)
+		{money=money+2400;}
+    
+	document.getElementById('t2').innerHTML=money; 
+	
+}
+
+</script>
+ 
+<body onLoad="init()">
+
+
+ 
+<div id=t1 style="position:absolute;border-width:5;border-style:double;border-color:white;top:300;left:600;font-size:50px;color:white;width:100px"></div>
+ 
+<input style="margin-left: 35%;margin-top: 5%;" type="button" value="stop"
+		onClick="checkwin();" >
+ 
+<input style="top:300;left:600;" type="button" value="run"
+		onClick="run1 = window.setInterval('move()' , 100);">
+ 
+<div id=t2 style="position:absolute;border-width:5;border-style:double;border-color:white;top:300;left:750;font-size:50px;color:white;width:100px">3000</div> 
+ 
+ 
+</body>
+</html>
+
